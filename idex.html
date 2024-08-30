@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory Game</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Allura&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sevillana&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <h1 class="page-title">Enchanted Forest - Memory Game</h1>
+    <h3 class="game-description">
+      The Enchanted Forest is in peril! The mischievous spirits have scattered
+      the fairies and unicorns across the forest.<br />
+      Match the pairs to restore their magic and save the forest from falling
+      into darkness.
+      <p>Full experience:<button id="mute-btn">Unmute</button></p>
+    </h3>
+    <!-- <div class="game-container">
+      <div class="game-info-container">
+        <div class="game-info"> -->
+
+    <div class="game-info">
+      <h2>Time : <span class="time-remaining" id="time-remaining"></span></h2>
+      <h2>Flips : <span class="flips" id="flips">0</span></h2>
+    </div>
+    <section></section>
+    <div id="gameModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2 id="modalMessage">Game Over :(</h2>
+        <button id="restartBtn">Restart Game</button>
+      </div>
+    </div>
+    <iframe
+      id="bg-music"
+      width="0"
+      height="0"
+      src="https://www.youtube.com/embed/XxEhuSJF780?autoplay=1&loop=1&playlist=XxEhuSJF780&mute=1"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+    ></iframe>
+    <!-- <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/XxEhuSJF780?si=H4vabDo0mEXAtIji&amp;start=186"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+    ></iframe> -->
+  </body>
+</html>
