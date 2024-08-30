@@ -1,200 +1,184 @@
-.allura-regular {
-  font-family: "Allura", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-.sevillana-regular {
-  font-family: "Sevillana", cursive;
-  font-weight: 400;
-  font-style: normal;
+const section = document.querySelector("section");
+const timeRemainingCount = document.querySelector("span");
+let timeRemaining = 60;
+const flipsRemainingCount = document.querySelector("span");
+const timeDisplay = document.getElementById("time-remaining");
+const flipsDisplay = document.getElementById("flips");
+const modal = document.getElementById("gameModal");
+const modalMessage = document.getElementById("modalMessage");
+const closeBtn = document.querySelector(".close-btn");
+const restartBtn = document.getElementById("restartBtn");
+
+let timeLeft = 60;
+let flipsCount = 0;
+let timer;
+let hasStarted = false; // Flag to track if the game has started
+let matches = 0; // keeping track of the number of matches
+
+const getData = () => [
+  { imgSrc: "images/dragon.png", name: "dragon" },
+  { imgSrc: "images/echantedtree.png", name: "echantedtree" },
+  { imgSrc: "images/fairy-moon.png", name: "fairy-moon" },
+  { imgSrc: "images/glowingEgg1.png", name: "glowingEgg1" },
+  { imgSrc: "images/glowingmushrooms.png", name: "glowingmushroms" },
+  { imgSrc: "images/mushrooms.png", name: "mushrooms" },
+  { imgSrc: "images/twofairies.png", name: "twofairies" },
+  { imgSrc: "images/twowhitehorses.png", name: "twowhitehorses" },
+  { imgSrc: "images/whitehorse.png", name: "whitehorse" },
+  { imgSrc: "images/dragon.png", name: "dragon" },
+  { imgSrc: "images/echantedtree.png", name: "echantedtree" },
+  { imgSrc: "images/fairy-moon.png", name: "fairy-moon" },
+  { imgSrc: "images/glowingEgg1.png", name: "glowingEgg1" },
+  { imgSrc: "images/glowingmushrooms.png", name: "glowingmushroms" },
+  { imgSrc: "images/mushrooms.png", name: "mushrooms" },
+  { imgSrc: "images/twofairies.png", name: "twofairies" },
+  { imgSrc: "images/twowhitehorses.png", name: "twowhitehorses" },
+  { imgSrc: "images/whitehorse.png", name: "whitehorse" },
+];
+// Function to start the timer
+function startTimer() {
+  timer = setInterval(() => {
+    if (timeLeft > 0) {
+      timeLeft--;
+      timeDisplay.textContent = timeLeft;
+    } else {
+      clearInterval(timer);
+      showModal("Time is up! Game Over :(");
+    }
+  }, 1000); // Update every second
 }
 
-* {
-  box-sizing: border-box;
-}
-html {
-  cursor: url(images/cursor.cur), auto;
-}
-body {
-  /* cursor: none; */
-  margin: 0;
-  background-image: url(images/Y.png);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-#bg-music {
-  display: none;
+// Function to increment flips count
+function incrementFlips() {
+  flipsCount++;
+  flipsDisplay.textContent = flipsCount;
 }
 
-.page-title {
-  color: aquamarine;
-  font-family: "Sevillana", cursive;
-  font-weight: normal;
-  text-align: center;
-  font-size: 3em;
-}
-.game-description {
-  color: aquamarine;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: normal;
-  text-align: center;
-  font-size: 2em;
-  margin: 30px;
-}
-.game-info {
-  font-family: "Allura", cursive;
-  color: aquamarine;
-  font-size: 2em;
-  display: flex;
-  justify-content: space-around;
-  padding: 1%;
+// Function to show the modal with a custom message
+function showModal(message) {
+  modalMessage.textContent = message;
+  modal.style.display = "block";
 }
 
-section {
-  display: grid;
-  grid-template-columns: repeat(6, auto);
-  grid-gap: 1%;
-  grid-gap: 1%;
-  margin-bottom: 50px;
-  justify-content: center;
-  align-items: center;
-  perspective: 800px; /*This creates a 3D space for the card flip effect */
+// Function to hide the modal
+function hideModal() {
+  modal.style.display = "none";
 }
 
-.card {
-  position: relative;
-  height: 200px;
-  width: 125px;
-  border-radius: 12px;
-  transform-style: preserve-3d;
-  transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.back,
-.face {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  border-radius: 12px;
-  border-width: 2px;
-  border-style: solid;
-  pointer-events: none;
-  /* backface-visibility: hidden; */
-  border-color: rgb(55, 157, 172);
-}
+// Restart the game when the restart button is clicked
+restartBtn.addEventListener("click", () => {
+  hideModal();
+  // Reset the game state, like reloading the page or resetting variables
+  location.reload();
+});
 
-.face {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* z-index: 2; */
-  /* backface-visibility: hidden; */
-  /* transition: transform 0.6s ease-in-out; */
-  /* Smooth transition for the flip  */
-}
+// Close the modal when the close button is clicked
+closeBtn.addEventListener("click", hideModal);
 
-.back {
-  background-image: url(images/card.back.jpg);
-  backface-visibility: hidden;
-  background-size: cover;
-  background-position: center;
-  position: relative; /* Position relative to contain the pseudo-element */
-  overflow: hidden; /* Hide any overflow from the pseudo-element */
-}
-/* Adding the foggy cloud on top using a pseudo-element */
-.back::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url(images/backcard.fog.png);
-  background-size: cover;
-  background-position: center;
-  opacity: 0.6; /* Adjust opacity for desired effect 
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition 
-  z-index: 1; /* Ensure it is above the back image */
-}
+//Randomize
+const randomize = () => {
+  const cardData = getData();
+  cardData.sort(() => Math.random() - 0.5);
+  return cardData;
+};
 
-/* Hover effect to enlarge the foggy cloud 
-.back:hover::after {
-  transform: scale(1.1); Scales the cloud when hovering 
-  opacity: 1; Optional: make the cloud fully visible on hover 
-}*/
+//Card generator
+const cardGenerator = () => {
+  const cardData = randomize();
+  //generate the html
+  cardData.forEach((item) => {
+    const card = document.createElement("div");
+    const face = document.createElement("img");
+    const back = document.createElement("div");
+    card.classList = "card";
+    face.classList = "face";
+    back.classList = "back";
+    //attach the info to the cards
+    face.src = item.imgSrc;
+    back.src = "images/card.back.jpg";
+    back.style.backgroundSize = "cover";
 
-.toggleCard {
-  transform: rotateY(180deg);
-}
-/* Modal styles */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed;
-  z-index: 1000; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
-}
+    card.setAttribute("name", item.name);
+    section.appendChild(card);
+    card.appendChild(face);
+    card.appendChild(back);
 
-.modal-content {
-  background-color: rgb(55, 157, 172);
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 400px;
-  text-align: center;
-  border-radius: 10px;
-}
+    card.addEventListener("click", (event) => {
+      if (!hasStarted) {
+        startTimer();
+        hasStarted = true; // Set the flag to true to prevent restarting the timer
+      }
+      card.classList.toggle("toggleCard");
+      checkCards(event);
+      incrementFlips();
+    });
+  });
+};
+//check cards
+const checkCards = (event) => {
+  console.log(event);
+  const clickedCard = event.target;
 
-.close-btn {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
+  // Prevent clicking on already flipped cards
+  if (clickedCard.classList.contains("flipped")) return;
 
-.close-btn:hover,
-.close-btn:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
+  clickedCard.classList.add("flipped");
+  const flippedCards = document.querySelectorAll(".flipped");
 
-#restartBtn {
-  padding: 10px 20px;
-  margin-top: 15px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+  if (flippedCards.length === 2) {
+    if (
+      flippedCards[0].getAttribute("name") ===
+      flippedCards[1].getAttribute("name")
+    ) {
+      console.log("match");
 
-#restartBtn:hover {
-  background-color: #45a049;
+      // If cards match, keep them flipped and optionally add another class if needed
+      flippedCards.forEach((card) => {
+        card.classList.remove("flipped");
+        card.style.pointerEvents = "none";
+      });
+      matches++;
+      checkWin();
+    } else {
+      console.log("wrong");
+      flippedCards.forEach((card) => {
+        card.classList.remove("flipped");
+        setTimeout(() => card.classList.remove("toggleCard"), 1200);
+      });
+    }
+  }
+};
+
+const checkWin = () => {
+  if (matches === getData().length / 2) {
+    clearInterval(timer); // Stop the timer
+    showinScreen(); // show the winning screen
+  }
+};
+
+const showinScreen = () => {
+  window.location.href = "win.html";
+};
+function startGame() {
+  cardGenerator();
 }
-#mute-btn {
-  color: rgb(24, 47, 39);
-  background-color: aquamarine;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: normal;
-  text-align: center;
-  font-size: 2em;
-  margin: 30px;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-p {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: normal;
-  text-align: center;
-}
+document.addEventListener("DOMContentLoaded", startGame);
+
+// JavaScript to handle mute/unmute functionality
+const muteButton = document.getElementById("mute-btn");
+const audioElement = document.getElementById("background-music");
+
+muteButton.textContent = audioElement.muted ? "Unmute" : "Mute";
+
+muteButton.addEventListener("click", () => {
+  // Check if the audio is currently muted
+  if (audioElement.muted) {
+    // Unmute the audio
+    audioElement.muted = false;
+    muteButton.textContent = "Mute"; // Change button text to "Mute"
+  } else {
+    // Mute the audio
+    audioElement.muted = true;
+    muteButton.textContent = "Unmute"; // Change button text to "Unmute"
+  }
+});
