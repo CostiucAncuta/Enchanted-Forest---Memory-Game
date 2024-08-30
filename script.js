@@ -169,16 +169,50 @@ const muteButton = document.getElementById("mute-btn");
 const audioElement = document.getElementById("background-music");
 
 muteButton.textContent = audioElement.muted ? "Unmute" : "Mute";
-
+audioElement.addEventListener("canplaythrough", () => {
+  console.log("Audio is ready to play.");
+});
 muteButton.addEventListener("click", () => {
   // Check if the audio is currently muted
   if (audioElement.muted) {
     // Unmute the audio
     audioElement.muted = false;
-    muteButton.textContent = "Mute"; // Change button text to "Mute"
+    audioElement
+      .play()
+      .catch((error) => console.log("Error playing audio:", error)); // Play the audio when unmuting
+    muteButton.textContent = "Mute";
   } else {
-    // Mute the audio
+    // Mute and pause the audio
     audioElement.muted = true;
-    muteButton.textContent = "Unmute"; // Change button text to "Unmute"
+    audioElement.pause(); // Pause the audio when muting
+    muteButton.textContent = "Unmute";
   }
 });
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   // Get the button and the audio element
+//   const muteButton = document.getElementById("mute-btn");
+//   const audioElement = document.getElementById("background-music");
+
+//   // Check if both elements exist
+//   if (muteButton && audioElement) {
+//     // Set the initial button text based on the audio element's state
+//     muteButton.textContent = audioElement.muted ? "Unmute" : "Mute";
+
+//     // Add an event listener for the mute button
+//     muteButton.addEventListener("click", () => {
+//       // Check if the audio is currently muted
+//       if (audioElement.muted) {
+//         // Unmute the audio
+//         audioElement.muted = false;
+//         muteButton.textContent = "Mute"; // Change button text to "Mute"
+//       } else {
+//         // Mute the audio
+//         audioElement.muted = true;
+//         muteButton.textContent = "Unmute"; // Change button text to "Unmute"
+//       }
+//     });
+//   } else {
+//     console.error("Mute button or audio element not found in the DOM.");
+//   }
+// });
