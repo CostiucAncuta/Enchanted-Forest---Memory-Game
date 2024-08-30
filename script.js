@@ -28,7 +28,7 @@ const getData = () => [
   { imgSrc: "images/dragon.png", name: "dragon" },
   { imgSrc: "images/echantedtree.png", name: "echantedtree" },
   { imgSrc: "images/fairy-moon.png", name: "fairy-moon" },
-  { imgSrc: "images/glowingegg1.png", name: "glowingegg" },
+  { imgSrc: "images/glowingEgg1.png", name: "glowingEgg1" },
   { imgSrc: "images/glowingmushrooms.png", name: "glowingmushroms" },
   { imgSrc: "images/mushrooms.png", name: "mushrooms" },
   { imgSrc: "images/twofairies.png", name: "twofairies" },
